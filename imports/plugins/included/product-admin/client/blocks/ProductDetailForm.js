@@ -16,13 +16,17 @@ import SimpleSchema from "simpl-schema";
 import muiOptions from "reacto-form/cjs/muiOptions";
 import muiCheckboxOptions from "reacto-form/cjs/muiCheckboxOptions";
 import CountryOptions from "@reactioncommerce/api-utils/CountryOptions.js";
-import { TextField, useConfirmDialog } from "@reactioncommerce/catalyst";
+import LanguageOptions from "@reactioncommerce/api-utils/LanguageOptions.js";
+import { Select, TextField, useConfirmDialog } from "@reactioncommerce/catalyst";
 import useGenerateSitemaps from "/imports/plugins/included/sitemap-generator/client/hooks/useGenerateSitemaps";
 import useProduct from "../hooks/useProduct";
 
 const useStyles = makeStyles((theme) => ({
   card: {
     marginBottom: theme.spacing(2)
+  },
+  languageSelector: {
+    minWidth: 140
   },
   textField: {
     marginBottom: theme.spacing(4),
@@ -77,6 +81,8 @@ const ProductDetailForm = React.forwardRef((props, ref) => {
     product,
     shopId
   } = useProduct();
+
+  const { productLanguage, setProductLanguage } = useState();
 
   const { generateSitemaps } = useGenerateSitemaps(shopId);
   const {
@@ -215,7 +221,19 @@ const ProductDetailForm = React.forwardRef((props, ref) => {
 
   return (
     <Card className={classes.card} ref={ref}>
-      <CardHeader title={i18next.t("admin.productAdmin.details")} />
+      <CardHeader
+        action={
+          <div className={classes.languageSelector}>
+            <Select
+              onSelection={setProductLanguage}
+              options={LanguageOptions}
+              placeholder={i18next.t("admin.language")}
+              value={productLanguage}
+            />
+          </div>
+        }
+        title={i18next.t("admin.productAdmin.details")}
+      />
       <CardContent>
         {content}
       </CardContent>
