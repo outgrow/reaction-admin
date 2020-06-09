@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import i18next from "i18next";
 import SimpleSchema from "simpl-schema";
-import { Button, TextField } from "@reactioncommerce/catalyst";
+import { Button, Select, TextField } from "@reactioncommerce/catalyst";
 import useReactoForm from "reacto-form/cjs/useReactoForm";
 import muiOptions from "reacto-form/cjs/muiOptions";
 import moment from "moment-timezone";
@@ -131,7 +131,7 @@ export default function ShopSettings() {
   const currencyInputProps = getInputProps("currency.code", muiOptions);
   const baseUOLInputProps = getInputProps("baseUOL", muiOptions);
   const baseUOMInputProps = getInputProps("baseUOM", muiOptions);
-  const languageInputProps = getInputProps("language", muiOptions);
+  const defaultShopLanguageInputProps = getInputProps("defaultShopLanguage", muiOptions);
   const timezoneInputProps = getInputProps("timezone", muiOptions);
 
   return (
@@ -221,16 +221,16 @@ export default function ShopSettings() {
           </Grid>
           <Grid item xs={12}>
             <TextField
-              error={hasErrors(["language"])}
+              error={hasErrors(["defaultShopLanguage"])}
               fullWidth
-              helperText={getFirstErrorMessage(["language"])}
-              label={i18next.t("admin.language")}
+              helperText={getFirstErrorMessage(["defaultShopLanguage"])}
+              label={i18next.t("admin.defaultShopLanguage")}
               onKeyPress={(event) => {
                 if (event.key === "Enter") submitForm();
               }}
               select
-              {...languageInputProps}
-              value={languageInputProps.value}
+              {...defaultShopLanguageInputProps}
+              value={defaultShopLanguageInputProps.value}
             >
               {LanguageOptions.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
@@ -238,6 +238,18 @@ export default function ShopSettings() {
                 </MenuItem>
               ))}
             </TextField>
+          </Grid>
+          <Grid item xs={12}>
+            <Select
+              error={hasErrors(["adminProductEditorLanguages"])}
+              fullWidth
+              helperText={getFirstErrorMessage(["adminProductEditorLanguages"])}
+              label={i18next.t("admin.adminProductEditorLanguages")}
+              isMulti
+              options={LanguageOptions}
+              {...defaultShopLanguageInputProps}
+              value={defaultShopLanguageInputProps.value}
+            />
           </Grid>
         </Grid>
       </CardContent>
