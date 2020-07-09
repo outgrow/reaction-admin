@@ -43,6 +43,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const localizationSettings = new SimpleSchema({
+  "adminProductEditorLanguages": {
+    type: Array,
+    optional: true,
+    defaultValue: []
+  },
+  "adminProductEditorLanguages.$": {
+    type: Object,
+    blackbox: true
+  },
   "currency": Object,
   "currency.code": {
     type: String,
@@ -95,6 +104,9 @@ export default function ShopSettings() {
       const { currency: { code } } = cleanedUserInput;
       cleanedUserInput.currency = code;
 
+      // Flatten language array
+      cleanedUserInput.adminProductEditorLanguages = cleanedUserInput.adminProductEditorLanguages.map((language) => language.value);
+
       // Only update default parcel size when UOL/UOM are changed by the user
       if (userInput.baseUOL !== shop.baseUOL || userInput.baseUOM !== shop.baseUOM) {
         const parcelSize = {
@@ -132,7 +144,10 @@ export default function ShopSettings() {
   const baseUOLInputProps = getInputProps("baseUOL", muiOptions);
   const baseUOMInputProps = getInputProps("baseUOM", muiOptions);
   const defaultShopLanguageInputProps = getInputProps("defaultShopLanguage", muiOptions);
+  const adminProductEditorLanguagesInputProps = getInputProps("adminProductEditorLanguages");
   const timezoneInputProps = getInputProps("timezone", muiOptions);
+
+  const adminProductEditorLanguagesInputRef = React.createRef();
 
   return (
     <Card className={classes.card}>
@@ -241,14 +256,14 @@ export default function ShopSettings() {
           </Grid>
           <Grid item xs={12}>
             <Select
+              ref={adminProductEditorLanguagesInputRef}
               error={hasErrors(["adminProductEditorLanguages"])}
               fullWidth
               helperText={getFirstErrorMessage(["adminProductEditorLanguages"])}
               label={i18next.t("admin.adminProductEditorLanguages")}
               isMulti
               options={LanguageOptions}
-              {...defaultShopLanguageInputProps}
-              value={defaultShopLanguageInputProps.value}
+              {...adminProductEditorLanguagesInputProps}
             />
           </Grid>
         </Grid>

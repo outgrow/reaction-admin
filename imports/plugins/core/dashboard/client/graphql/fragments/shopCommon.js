@@ -33,6 +33,7 @@ export default gql`
     }
     keywords
     language
+    adminProductEditorLanguages
     name
     slug
     timezone
@@ -40,7 +41,7 @@ export default gql`
       uol
       label
     }
-    unitsOfMeasure { 
+    unitsOfMeasure {
       uom
       label
     }
