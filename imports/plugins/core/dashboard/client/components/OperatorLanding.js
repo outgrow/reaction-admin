@@ -64,6 +64,7 @@ function OperatorLanding() {
         alignItems="center"
         spacing={5}
       >
+
         <Grid item />
         <Grid item>
           <ShopLogoWithData size={100} />
